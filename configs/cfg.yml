@@ -1,0 +1,506 @@
+model_name: DCNet
+seed: 1234
+threads: 48
+load_ckpt: log/nyu_aug_rezero_3/DCNet/checkpoint_000044.ckpt
+run_mode: val
+
+log:
+  dir: ./log
+  train_freq: 500
+
+NK:
+  name: NK
+  trainlist: filename/train_nk.txt
+  crop_height: 228
+  crop_width: 304
+  rate: 0.01
+  knn : 1
+  knn_rate: 1
+  knn_candidate: 0
+  iteration: 0
+  diffusion: 3D-2D
+  NYUv2:
+    path: /data1/slchen1/data/NYU/nyudepthv2
+    height: 240
+    width: 320
+    min: 0.1
+    max: 10
+    rate: 0.01
+    sparse: 693
+  KITTI:
+    path: /data1/slchen1/data/KITTI/completion
+    raw: /data1/slchen1/data/KITTI/raw_data
+    bottom_height: 256
+    bottom_width: 1216
+    crop_height: 256
+    crop_width: 832
+    resize_height: 228
+    resize_width: 304
+    min: 0.5
+    max: 90
+    rate: 0.01
+
+NYUv2:
+  name: NYUv2
+  path: /data1/slchen1/data/NYU/nyudepthv2
+  trainlist: filename/train_nyu.txt
+  valrgb: /data1/slchen1/data/val/rgb/NYUv2
+  valgt: /data1/slchen1/data/val/depth/NYUv2
+  valraw: /data1/slchen1/data/val/sparse/scatter_001/NYUv2
+  valk: 
+  vallist: filename/val_nyu.txt
+  height: 240
+  width: 320
+  crop_height: 228
+  crop_width: 304
+  min: 0.1
+  max: 10
+  rate: 0.01
+  sparse: 693
+  knn : 1
+  knn_rate: 1
+  knn_candidate: 0
+  iteration: 0
+  diffusion: 3D-2D
+
+KITTI:
+  name: KITTI
+  path: /data1/slchen1/data/KITTI/completion
+  raw: /data1/slchen1/data/KITTI/raw_data
+  valrgb: /data1/slchen1/data/val/rgb/KITTI
+  valgt: /data1/slchen1/data/val/depth/KITTI
+  valraw: /data1/slchen1/data/val/sparse/raw/KITTI
+  valk: /data1/slchen1/data/val/intrinsics/KITTI
+  vallist: filename/val_kitti.txt
+  trainlist: filename/train_kitti_pseudo.txt
+  bottom_height: 256
+  bottom_width: 1216
+  crop_height: 256
+  crop_width: 832
+  resize_height: 228
+  resize_width: 304
+  min: 0.5
+  max: 90
+  knn : 1
+  knn_rate: 1 # 0.5
+  knn_candidate: 0 # 10000
+  rate: 0.01
+  knn_rate_train: 1
+  knn_candidate_train: 0
+  iteration: 0
+  diffusion: 3D-2D
+
+VOID1500:
+  name: VOID1500
+  valrgb: /data1/slchen1/data/val/rgb/VOID1500
+  valgt: /data1/slchen1/data/val/depth/VOID1500
+  valraw: /data1/slchen1/data/val/sparse/raw/VOID1500
+  valk: /data1/slchen1/data/val/intrinsics/VOID1500
+  vallist: filename/val_void1500.txt
+  min: 0.1
+  max: 10
+  knn : 1
+  knn_rate: 1
+  knn_candidate: 0
+  iteration: 1
+  diffusion: 3D-2D
+
+HYPERSIM:
+  name: HYPERSIM
+  valrgb: /data1/slchen1/data/val/rgb/Hypersim
+  valgt: /data1/slchen1/data/val/depth/Hypersim
+  valraw: /data1/slchen1/data/val/sparse/scatter_001/Hypersim
+  valk: 
+  vallist: filename/val_hypersim_1098.txt
+  min: 0.1
+  max: 10
+  rate: 0.01
+  knn : 1
+  knn_rate: 1
+  knn_candidate: 0
+  iteration: 0
+  diffusion: 3D-2D
+
+DrivingStereo:
+  name: DrivingStereo
+  valrgb: /data1/slchen1/data/val/rgb/Drivingstereo
+  valgt: /data1/slchen1/data/val/depth/Drivingstereo
+  valraw: /data1/slchen1/data/val/sparse/scatter_001/Drivingstereo
+  valk: 
+  vallist: filename/val_drivingstereo_half_1108.txt
+  bottom_height: 320
+  bottom_width: 881
+  min: 1
+  max: 130
+  rate: 0.01
+  knn : 1
+  knn_rate: 1
+  knn_candidate: 0
+  iteration: 6
+  diffusion: 3D-2D
+
+DIODEo:
+  name: DIODEo
+  valrgb: /data1/slchen1/data/val/rgb/DIODE/outdoor
+  valgt: /data1/slchen1/data/val/depth/DIODE/outdoor
+  valraw: /data1/slchen1/data/val/sparse/scatter_001/DIODE/outdoor
+  valk: 
+  vallist: filename/val_diode_outdoor.txt
+  min: 1
+  max: 250
+  rate: 0.01
+  knn : 1
+  knn_rate: 1
+  knn_candidate: 0
+  iteration: 0
+  diffusion: 3D-2D
+
+DIODEi:
+  name: DIODEi
+  valrgb: /data1/slchen1/data/val/rgb/DIODE/indoor
+  valgt: /data1/slchen1/data/val/depth/DIODE/indoor
+  valraw: /data1/slchen1/data/val/sparse/scatter_001/DIODE/indoor
+  valk: 
+  vallist: filename/val_diode_indoor.txt
+  min: 0.1
+  max: 100
+  rate: 0.01
+  knn : 1
+  knn_rate: 1
+  knn_candidate: 0
+  iteration: 0
+  diffusion: 3D-2D
+
+SUNRGBD:
+  name: SUNRGBD
+  valrgb: /data1/slchen1/data/val/rgb/SUNRGBD
+  valgt: /data1/slchen1/data/val/depth/SUNRGBD
+  valraw: /data1/slchen1/data/val/sparse/raw/SUNRGBD
+  valk: /data1/slchen1/data/val/intrinsics/SUNRGBD
+  vallist: filename/val_sunrgbd_1010.txt
+  min: 0.1
+  max: 40
+  knn : 1
+  knn_rate: 1
+  knn_candidate: 0
+  iteration: 6
+  diffusion: 3D-2D
+
+SCANNET:
+  name: SCANNET
+  valrgb: /data1/slchen1/data/val/rgb/Scannet
+  valgt: /data1/slchen1/data/val/depth/Scannet
+  valraw: /data1/slchen1/data/val/sparse/scatter_001/Scannet
+  valk: /data1/slchen1/data/val/intrinsics/Scannet
+  vallist: filename/val_scannet_1038.txt
+  h: 480
+  w: 640
+  min: 0.1
+  max: 10
+  rate: 0.01
+  knn : 1
+  knn_rate: 1
+  knn_candidate: 0
+  iteration: 0
+  diffusion: 3D-2D
+
+MIDDLEBURY:
+  name: MIDDLEBURY
+  valrgb: /data1/slchen1/data/val/rgb/Middlebury
+  valgt: /data1/slchen1/data/val/depth/Middlebury
+  valraw: /data1/slchen1/data/val/sparse/scatter_001/Middlebury
+  valk: /data1/slchen1/data/val/intrinsics/Middlebury
+  vallist: filename/val_middlebury_q.txt
+  min: 0.1
+  max: 20
+  rate: 0.01
+  knn : 1
+  knn_rate: 1
+  knn_candidate: 0
+  iteration: 0
+  diffusion: 3D-2D
+  
+ETH3D:
+  name: ETH3D
+  valrgb: /data1/slchen1/data/val/rgb/ETH3D
+  valgt: /data1/slchen1/data/val/depth/ETH3D
+  valraw: /data1/slchen1/data/val/sparse/scatter_001/ETH3D
+  valk: /data1/slchen1/data/val/intrinsics/ETH3D
+  vallist: filename/val_eth3d.txt
+  min: 0.5
+  max: 10
+  rate: 0.01
+  knn : 1
+  knn_rate: 1
+  knn_candidate: 0
+  iteration: 0
+  diffusion: 3D-2D
+  
+ARGOVERSE: 
+  name: ARGOVERSE
+  valrgb: /data1/slchen1/data/val/rgb/Argoverse
+  valgt: /data1/slchen1/data/val/depth/Argoverse
+  valraw: /data1/slchen1/data/val/sparse/scatter_001/Argoverse
+  valk: /data1/slchen1/data/val/intrinsics/Argoverse
+  vallist: filename/val_argoverse_1009.txt 
+  bottom_height: 1656
+  bottom_width: 2464
+  min: 1
+  max: 200
+  rate: 0.01
+  knn : 1
+  knn_rate: 0.3 # 0.1
+  knn_candidate: 8000
+  iteration: 0
+  diffusion: 3D-2D
+
+DIMLi:
+  name: DIMLi
+  valrgb: /data1/slchen1/data/val/rgb/DIML/indoor
+  valgt: /data1/slchen1/data/val/depth/DIML/indoor
+  valraw: /data1/slchen1/data/val/sparse/raw/DIML/indoor
+  valk:
+  vallist: filename/val_diml_indoor.txt
+  min: 0.5
+  max: 8.0
+  knn : 12
+  knn_rate: 1
+  knn_candidate: 0
+  iteration: 6
+  diffusion: 3D-2D
+
+Cityscape: 
+  name: Cityscape
+  valrgb: /data1/slchen1/data/val/rgb/Cityscape
+  valgt: /data1/slchen1/data/val/depth/Cityscape
+  valraw: /data1/slchen1/data/val/sparse/scatter_001/Cityscape
+  valk: /data1/slchen1/data/val/intrinsics/Cityscape
+  vallist: filename/val_cityscapes.txt
+  center_height: 800
+  center_width: 1600
+  resize_height: 512
+  resize_width: 1024
+  min: 1
+  max: 250
+  rate: 0.01
+  knn : 2
+  knn_rate: 1
+  knn_candidate: 0
+  iteration: 6
+  diffusion: 3D-2D
+
+TOFDC:
+  name: TOFDC
+  valrgb: /data1/slchen1/data/val/rgb/TOFDC
+  valgt: /data1/slchen1/data/val/depth/TOFDC
+  valraw: /data1/slchen1/data/val/sparse/raw/TOFDC
+  valk: 
+  vallist: filename/val_tofdc.txt
+  min: 0.1
+  max: 6.0
+  knn : 8
+  knn_rate: 1
+  knn_candidate: 0
+  iteration: 1
+  diffusion: 3D-2D
+
+VKITTI2:
+  name: VKITTI2
+  valrgb: /data1/slchen1/data/val/rgb/VKITTI2
+  valgt: /data1/slchen1/data/val/depth/VKITTI2
+  valraw: /data1/slchen1/data/val/sparse/scatter_001/VKITTI2
+  valk: 
+  vallist: filename/val_vkitti2.txt
+  min: 0.5
+  max: 120
+  knn : 3
+  knn_rate: 1 
+  knn_candidate: 0
+  iteration: 8
+  diffusion: 3D+2D
+
+HAMMER:
+  name: HAMMER
+  valrgb: /data1/slchen1/data/val/rgb/HAMMER
+  valgt: /data1/slchen1/data/val/depth/HAMMER
+  valraw: /data1/slchen1/data/val/sparse/raw/HAMMER
+  valk: 
+  vallist: filename/val_hammer.txt
+  min: 0.1
+  max: 1.2
+  knn : 1
+  knn_rate: 1
+  knn_candidate: 0
+  iteration: 6
+  diffusion: 3D-2D
+
+Stanford:
+  name: Stanford
+  valrgb: /data1/slchen1/data/val/rgb/Stanford
+  valgt: /data1/slchen1/data/val/depth/Stanford
+  valraw: /data1/slchen1/data/val/sparse/scatter_001/Stanford
+  valk: 
+  vallist: filename/val_stanford.txt
+  resize_height: 1024 # 1024
+  resize_width: 1664 # 1856 1600 dpr #
+  min: 0.1
+  max: 10
+  knn : 1
+  knn_rate: 0.5
+  knn_candidate: 0
+  iteration: 8
+  diffusion: 3D-2D
+  data_basic:
+    canonical_space:
+        img_size: [512, 960]
+        focal_length: 1000.0
+    depth_range: [0, 1]
+    depth_normalize: [0.1, 200]
+    crop_size: [504, 740]
+
+KITTI360:
+  name: KITTI360
+  valrgb: /data1/slchen1/data/val/rgb/KITTI360
+  valgt: /data1/slchen1/data/val/depth/KITTI360
+  valraw: /data1/slchen1/data/val/sparse/scatter_001/KITTI360
+  valk: 
+  vallist: filename/val_kitti360.txt
+  min: 0.1
+  max: 80
+  knn : 1
+  knn_rate: 1
+  knn_candidate: 0
+  iteration: 8
+  diffusion: 3D-2D
+  data_basic:
+    canonical_space:
+        img_size: [512, 960]
+        focal_length: 1000.0
+    depth_range: [0, 1]
+    depth_normalize: [0.1, 200]
+    crop_size: [504, 740]
+
+train:
+  dataset: 
+    name: NK
+    img_aug:
+      horizontal_flip: 0.5
+      normalized: true
+      color_jitter: 0.4
+      degree: 5.0
+      scale: 1.5
+
+  batch_size: 48
+  accumulate_gradient: 1
+  total_epoch: 45
+  warmup_epochs: 1
+  start_ratio: 0.1
+  base_lr: 1e-3
+  min_lr: 1e-5
+  max_lr: 1e-3
+  
+  lr_scheduler:
+    name: stage
+    lr_epoch: [    0,      10,     20,  22,    25,       30,      35,      40]
+    lrs:      [0.001, 0.00075, 0.0005, 0.0003, 0.00025, 0.000125, 0.00005, 0.00001]
+
+  optimizer:
+    name: adamw
+    eps: 1e-8
+    betas: [0.9, 0.999]
+    weight_decay: 0.05
+
+  weight:
+    depth_weight: 1.0
+    conf_weight: 1.0
+
+RegressBranch:
+  layer_dim: [256, 256, 256, 256] #[192, 384, 768, 1536] # [64, 64, 64, 64] # 
+  midas_dim: 16
+  dim: 16
+  last_dim: 16
+  backbone: resnet18
+  ghost:
+    dim: 24
+    layer: [0, 2, 4, 6, 9]
+    width: 1.6
+    dropout: 0.2
+    en_ch: [None, None, 64, 180, 1536]
+    de_ch: [None, None, 32,  64, 128]
+    pretrained: # TODO /data/slchen/pretrained/ghost/ck_ghostnetv2_16.pth.tar
+  resnet:
+    dim: 32
+    pretrained: /data/slchen/pretrained/resnet18.pth
+    en_ch:  [None, None, 64, 128, 256]
+    de_ch:  [None, None, 16,  32, 64]
+
+CSLBranch:
+  backbone: resnet18
+  pvt:
+    dim: 64
+    patch_size: 2
+    pretrained: /data/slchen/pretrained/pvt.pth
+  resnet:
+    dim: 64
+    pretrained: /data/slchen/pretrained/resnet18.pth
+  ImgBranch:
+    layer_dim: [256, 256, 256, 256] #[192, 384, 768, 1536] # [64, 64, 64, 64] # 
+    midas_dim: 16
+    dim: 16
+    last_dim: 24
+    pvt:
+      en_ch: [64, 128, 64, 128, 320, 512]
+      de_ch: [None, 64, 64, 64, 160, 256]
+    resnet:
+      en_ch: [  64, 128, 256, 512]
+      de_ch: [None,  64, 128, 256]    
+  PixBranch:
+    resnet:
+      dim: 16
+      fuse_dim: 24
+      feat_dim: 128
+      last_dim: 16
+    pvt:
+      dim: 16
+      fuse_dim: 24
+      feat_dim: 128
+      last_dim: 16
+
+MDEBranch:
+  backbone: midas # midas # depthanything
+  midas:
+    backbone: swin2l24_384
+    pretrained: /data/slchen/pretrained/dpt_swin2_large_384.pt
+    resize_h: 384
+    resize_w: 384
+    mean: [0.5, 0.5, 0.5]
+    std: [0.5, 0.5, 0.5]
+  depany:
+    backbone: vitl
+    pretrained: /data/slchen/pretrained/depth_anything_vitl14.pth
+    resize_h: 392
+    resize_w: 392
+    mean: [0.485, 0.456, 0.406]
+    std: [0.229, 0.224, 0.225]
+  depanyv2:
+    backbone: vitl
+    pretrained: /data/slchen/pretrained/depth_anything_v2_vitl.pth
+    resize_h: 392
+    resize_w: 392
+    mean: [0.485, 0.456, 0.406]
+    std: [0.229, 0.224, 0.225]
+
+Net:
+  margin: 0.1
+  bin_num: 5
+  scale: 4
+  cspnv1:
+    scale: [1]
+    kernel: [3]
+    iteration: [3]
+  cspn:
+    kernel: 3
+    iteration: 3
+  cspn_dwon:
+    kernel: 3
+    iteration: 3
