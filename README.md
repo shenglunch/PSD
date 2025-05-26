@@ -19,7 +19,11 @@ Shenglun Chen, Xinzhu Ma, Hong Zhang, Haojie Li, Zhihui Wang. Propagating Sparse
 | PSD-NK-Mev2| Metric3D v2       |  Large      | [Download](https://drive.google.com/file/d/1ADCAuotj6g06R0Pp2tmP0xSKfBEk5rjy/view?usp=drive_link) |
 | PSD-NK-PDA | PromptDA          |  Large      | [Download](https://drive.google.com/file/d/1ozhjyLL_1Wy6kWaPHi136asskliHhxsE/view?usp=drive_link) |
 | PSD-NK-UDv2| UniDepth v2       |  Large      | [Download](https://drive.google.com/file/d/1uypXb_fF6ERMnsS_k04kd-J7dJ81oC1l/view?usp=drive_link) |
-  
+
+N/K denotes the training dataset NYUv2/KITTI.
+
+### Dataset
+
 ## Acknowledgements
 
 ## Citation
