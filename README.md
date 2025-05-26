@@ -2,7 +2,9 @@
 Shenglun Chen, Xinzhu Ma, Hong Zhang, Haojie Li, Zhihui Wang. Propagating Sparse Depth via Depth Foundation Model for Out-of-Distribution Depth Completion
 
 ## News
+
 2025-5-26 We upload the pre-trained models.
+
 2025-5-24 We release the main code. Soon, we will upload the test dataset and pre-trained models.
 
 ## Installation
