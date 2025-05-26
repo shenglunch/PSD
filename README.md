@@ -27,6 +27,10 @@ N/K denotes the training dataset NYUv2/KITTI.
 
 ### Dataset
 
+Training dataset inclues [NYUv2 DC](https://github.com/fangchangma/sparse-to-dense) and [KITTI DC](https://www.cvlibs.net/datasets/kitti/eval_depth.php?benchmark=depth_completion).
+
 ## Acknowledgements
+
+Thanks the authors for their works: CSPN, MiDaS, Depth Anything, Depth Anything v2, Depth Pro, Metric3D v2, PromptDA, UniDepth v2.
 
 ## Citation
