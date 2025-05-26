@@ -1,5 +1,5 @@
 # PSD
-Shenglun Chen, Xinzhu Ma, Hong Zhang, Haojie Li, Zhihui Wang. Propagating Sparse Depth via Depth Foundation Model for Out-of-Distribution Depth Completion
+Shenglun Chen, Xinzhu Ma, Hong Zhang, Haojie Li, Zhihui Wang. Propagating Sparse Depth via Depth Foundation Model for Out-of-Distribution Depth Completion. Under Reivew
 
 ## News
 
