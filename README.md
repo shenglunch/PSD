@@ -33,6 +33,6 @@ Testing datset includes [VOID1500](https://github.com/alexklwong/void-dataset), 
 
 ## Acknowledgements
 
-Thanks the authors for their works: CSPN, MiDaS, Depth Anything, Depth Anything v2, Depth Pro, Metric3D v2, PromptDA, UniDepth v2.
+Thanks the authors for their works: [CSPN](https://github.com/XinJCheng/CSPN), MiDaS, Depth Anything, Depth Anything v2, Depth Pro, Metric3D v2, PromptDA, UniDepth v2.
 
 ## Citation
