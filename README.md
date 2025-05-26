@@ -10,12 +10,12 @@ Shenglun Chen, Xinzhu Ma, Hong Zhang, Haojie Li, Zhihui Wang. Propagating Sparse
 
 
 ### Pre-trained Models
-| Model        | Foundation Model  | Version |  Checkpoint  |
-| --------   | -----:  | :----:  |
-| PSD-NK-M      | $1600   |   5     |
-| 手机        |   $12   |   12   |
-| 管线        |    $1    |  234  |
-
+| Model      | Foundation Model  | Version |  Checkpoint  |
+| --------   | :-----:  | :----:  | :----: |  
+| PSD-NK-M   | MiDaS    |   La     |     |
+| PSD-NK-D   | Depth Anything   | Large   |   |  
+| PSD-NK-Dv2 | Depth Anything v2 |  Large |   |
+  
 ## Acknowledgements
 
 ## Citation
