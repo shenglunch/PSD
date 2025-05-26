@@ -29,6 +29,8 @@ N/K denotes the training dataset NYUv2/KITTI.
 
 Training dataset inclues [NYUv2 DC](https://github.com/fangchangma/sparse-to-dense) and [KITTI DC](https://www.cvlibs.net/datasets/kitti/eval_depth.php?benchmark=depth_completion).
 
+Testing datset includes [VOID1500](https://github.com/alexklwong/void-dataset), [SUNRGBD](https://rgbd.cs.princeton.edu/), [TOFDC](https://yanzq95.github.io/projectpage/TOFDC/index.html), [DIML indoor](https://dimlrgbd.github.io/), [DIODE indoor](https://diode-dataset.org/), [Middlebury](https://vision.middlebury.edu/stereo/data/), [ETH3D](https://www.eth3d.net/datasets), [ScanNet](http://www.scan-net.org/), [Drivingstereo](https://drivingstereo-dataset.github.io/), [Argoverse](https://www.argoverse.org/), [Cityscapes](https://www.cityscapes-dataset.com/), [DIODE outdoor](https://diode-dataset.org/), [Hypersim]([Hypersim](https://github.com/apple/ml-hypersim)), [Virual KITTI](https://europe.naverlabs.com/proxy-virtual-worlds-vkitti-2/), [KITTI 360](https://www.cvlibs.net/datasets/kitti-360/), and [Stanford2D3D](https://redivis.com/datasets/f304-a3vhsvcaf).
+
 ## Acknowledgements
 
 Thanks the authors for their works: CSPN, MiDaS, Depth Anything, Depth Anything v2, Depth Pro, Metric3D v2, PromptDA, UniDepth v2.
