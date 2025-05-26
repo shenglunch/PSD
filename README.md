@@ -12,9 +12,13 @@ Shenglun Chen, Xinzhu Ma, Hong Zhang, Haojie Li, Zhihui Wang. Propagating Sparse
 ### Pre-trained Models
 | Model      | Foundation Model  | Version |  Checkpoint  |
 | --------   | :-----:  | :----:  | :----: |  
-| PSD-NK-M   | MiDaS    |   La     |     |
-| PSD-NK-D   | Depth Anything   | Large   |   |  
-| PSD-NK-Dv2 | Depth Anything v2 |  Large |   |
+| PSD-NK-M   | MiDaS             | Swin2 Large |     |
+| PSD-NK-D   | Depth Anything    | Large       |     |  
+| PSD-NK-Dv2 | Depth Anything v2 |  Large      |     |
+| PSD-NK-DPr | DepthPro          |  -          |     |
+| PSD-NK-Dv2 | Depth Anything v2 |  Large      |     |
+| PSD-NK-Dv2 | Depth Anything v2 |  Large      |     |
+| PSD-NK-Dv2 | Depth Anything v2 |  Large      |     |
   
 ## Acknowledgements
 
