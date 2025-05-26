@@ -15,10 +15,10 @@ Shenglun Chen, Xinzhu Ma, Hong Zhang, Haojie Li, Zhihui Wang. Propagating Sparse
 | PSD-NK-M   | MiDaS             | Swin2 Large |     |
 | PSD-NK-D   | Depth Anything    | Large       |     |  
 | PSD-NK-Dv2 | Depth Anything v2 |  Large      |     |
-| PSD-NK-DPr | DepthPro          |  -          |     |
-| PSD-NK-Dv2 | Depth Anything v2 |  Large      |     |
-| PSD-NK-Dv2 | Depth Anything v2 |  Large      |     |
-| PSD-NK-Dv2 | Depth Anything v2 |  Large      |     |
+| PSD-NK-DPr | Depth Pro         |  -          |     |
+| PSD-NK-Mev2| Metric3D v2       |  Large      |     |
+| PSD-NK-PDA | PromptDA          |  Large      |     |
+| PSD-NK-UDv2| UniDepth v2       |  Large      |     |
   
 ## Acknowledgements
 
