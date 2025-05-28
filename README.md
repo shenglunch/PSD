@@ -15,6 +15,10 @@ Shenglun Chen, Xinzhu Ma, Hong Zhang, Haojie Li, Zhihui Wang. Propagating Sparse
 
 The main environment requires adherence to the corresponding foundation model.
 
+<button type="button" onclick="navigator.clipboard.writeText('要复制的文本')">
+    复制到剪贴板
+</button>
+
 >> pip install scikit-image
 >> pip install numba
 >> pip install tensorboardX
