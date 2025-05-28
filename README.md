@@ -35,7 +35,6 @@ Testing datset includes [VOID1500](https://github.com/alexklwong/void-dataset), 
 
 ![](media/sparse_pattern.png)
 
-> Three sparse patterns
 
 ## Acknowledgements
 
