@@ -13,6 +13,12 @@ Shenglun Chen, Xinzhu Ma, Hong Zhang, Haojie Li, Zhihui Wang. Propagating Sparse
 
 ### Setting up the environment
 
+The main environment requires adherence to the corresponding foundation model.
+
+> pip install scikit-image
+> pip install numba
+> pip install tensorboardX
+> pip install omegaconf
 
 ### Pre-trained Models
 | Model      | Foundation Model  | Version |  Checkpoint  |
