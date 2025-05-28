@@ -19,7 +19,8 @@ The main environment requires adherence to the corresponding foundation model.
     pip install numba
     pip install tensorboardX
     pip install omegaconf
-
+    pip install opencv-python
+    pip install matplotlib
 
 ### Pre-trained Models
 | Model      | Foundation Model  | Version |  Checkpoint  |
