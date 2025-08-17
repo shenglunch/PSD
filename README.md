@@ -1,11 +1,11 @@
 # PSD
-Shenglun Chen, Xinzhu Ma, Hong Zhang, Haojie Li, Zhihui Wang. Propagating Sparse Depth via Depth Foundation Model for Out-of-Distribution Depth Completion. [IEEE TIP]{https://ieeexplore.ieee.org/document/11125857}.
+Shenglun Chen, Xinzhu Ma, Hong Zhang, Haojie Li, Zhihui Wang. Propagating Sparse Depth via Depth Foundation Model for Out-of-Distribution Depth Completion. [IEEE TIP](https://ieeexplore.ieee.org/document/11125857).
 
 ## News
 
 2025-8-17  Our work is published.
 
-2025-8-7  Our work is accepted by TIP. The ePrint is available at [arXiv]{https://arxiv.org/abs/2508.04984}.
+2025-8-7  Our work is accepted by TIP. The ePrint is available at [arXiv](https://arxiv.org/abs/2508.04984).
 
 2025-5-28 We upload the testing dataset.
 
@@ -55,11 +55,11 @@ Thanks the authors for their works: [CSPN](https://github.com/XinJCheng/CSPN), M
 ## Citation
 
     @ARTICLE{11125857,
-  author={Chen, Shenglun and Ma, Xinzhu and Zhang, Hong and Li, Haojie and Wang, Zhihui},
-  journal={IEEE Transactions on Image Processing}, 
-  title={Propagating Sparse Depth via Depth Foundation Model for Out-of-Distribution Depth Completion}, 
-  year={2025},
-  volume={},
-  number={},
-  pages={1-1},
-  doi={10.1109/TIP.2025.3597047}}
+      author={Chen, Shenglun and Ma, Xinzhu and Zhang, Hong and Li, Haojie and Wang, Zhihui},
+      journal={IEEE Transactions on Image Processing}, 
+      title={Propagating Sparse Depth via Depth Foundation Model for Out-of-Distribution Depth Completion}, 
+      year={2025},
+      volume={},
+      number={},
+      pages={1-1},
+      doi={10.1109/TIP.2025.3597047}}
