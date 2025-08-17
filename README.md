@@ -1,7 +1,7 @@
 # PSD
 Shenglun Chen, Xinzhu Ma, Hong Zhang, Haojie Li, Zhihui Wang. Propagating Sparse Depth via Depth Foundation Model for Out-of-Distribution Depth Completion. [IEEE TIP](https://ieeexplore.ieee.org/document/11125857).
 
-![图片alt]([图片链接](https://github.com/shenglunch/PSD/blob/main/assets/fig_frame.pdf) "Overview of framework")
+![Overview of framework](https://github.com/shenglunch/PSD/blob/main/assets/fig_frame.pdf "Overview of framework")
 
 
 ## News
