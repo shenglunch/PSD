@@ -58,12 +58,12 @@ Thanks the authors for their works: [CSPN](https://github.com/XinJCheng/CSPN), M
 
 ## Citation
 
-    @ARTICLE{11125857,
-      author={Chen, Shenglun and Ma, Xinzhu and Zhang, Hong and Li, Haojie and Wang, Zhihui},
-      journal={IEEE Transactions on Image Processing}, 
-      title={Propagating Sparse Depth via Depth Foundation Model for Out-of-Distribution Depth Completion}, 
-      year={2025},
-      volume={},
-      number={},
-      pages={1-1},
-      doi={10.1109/TIP.2025.3597047}}
+@ARTICLE{11125857,
+  author={Chen, Shenglun and Ma, Xinzhu and Zhang, Hong and Li, Haojie and Wang, Zhihui},
+  journal={IEEE Transactions on Image Processing}, 
+  title={Propagating Sparse Depth via Depth Foundation Model for Out-of-Distribution Depth Completion}, 
+  year={2025},
+  volume={34},
+  number={},
+  pages={5285-5299},
+  doi={10.1109/TIP.2025.3597047}}
