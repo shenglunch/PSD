@@ -1780,39 +1780,3 @@ class DCNet(nn.Module):
 
         return errors
 
-if __name__ == "__main__":
-    import argparse
-    import os
-    import os.path as osp
-    from omegaconf import OmegaConf
-
-    def load_config(cfg_file):
-        cfg = OmegaConf.load(cfg_file)
-        if '_base_' in cfg:
-            if isinstance(cfg._base_, str):
-                base_cfg = OmegaConf.load(osp.join(osp.dirname(cfg_file), cfg._base_))
-            else:
-                base_cfg = OmegaConf.merge(OmegaConf.load(f) for f in cfg._base_)
-            cfg = OmegaConf.merge(base_cfg, cfg)
-        return cfg
-
-    def get_config(args):
-        cfg = load_config(args.cfg)
-        OmegaConf.set_struct(cfg, True)
-        OmegaConf.set_readonly(cfg, True)
-        return cfg
-
-    parser = argparse.ArgumentParser(description='DCNet')
-    parser.add_argument("--cfg", type=str, default='/data/slchen/paper-large/DC/configs/nyu.yml')
-    args = parser.parse_args()
-    cfg = get_config(args)
-
-    inputs = {}
-    inputs['rgb'] = torch.rand(2, 3, 480, 640)
-    inputs['rgb_r'] = torch.rand(2, 3, 384, 384)
-    inputs['sparse'] = torch.rand(2, 1, 480, 640)
-    inputs['target'] = torch.rand(2, 1, 480, 640)
-
-    dc = DCNet(cfg)
-
-    dc(inputs, 1, True)
