@@ -14,7 +14,6 @@ from .data_vkitti2 import VKITTI2Dataset
 from .data_diml_in import DIMLiDataset
 from .data_cityscape import CityscapeDataset
 from .data_tofdc import TOFDCDataset
-from .data_hammer import HAMMERDataset
 from .data_stanford import StanfordDataset
 from .data_kitti360 import KITTI360Dataset
 from .data_nk import NKDataset
@@ -36,7 +35,6 @@ __datasets__ = {
     "DIMLi": DIMLiDataset,
     "Cityscape": CityscapeDataset,
     "TOFDC": TOFDCDataset,
-    "HAMMER": HAMMERDataset,
     "Stanford": StanfordDataset,
     "KITTI360": KITTI360Dataset,
     "NK": NKDataset}
