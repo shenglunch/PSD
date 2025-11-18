@@ -2,7 +2,7 @@ import argparse
 from util import get_config
 from train_manager import Trainer as manager
 
-parser = argparse.ArgumentParser(description='DCTransformer')
+parser = argparse.ArgumentParser(description='DC')
 parser.add_argument("--cfg", type=str, default='configs/cfg.yml')
 args = parser.parse_args()
 

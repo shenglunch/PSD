@@ -11,7 +11,7 @@ from torch import distributed as dist
 from torch.utils.data import DataLoader
 from tensorboardX import SummaryWriter
 from datasets import __datasets__
-from network.ipde_5c_l1_rezero_un_3 import DCNet
+from network.psdnet import DCNet
 from util import *
 from tool import *
 import logging
@@ -405,24 +405,6 @@ class Trainer:
                 writer.writeheader()
         self.logger.info("load TOFDC {}".format(len(self.tofdc_loader)))
 
-        # HAMMER
-        hammer_dataset = __datasets__[cfg.HAMMER.name](cfg, mode='val')
-        self.hammer_loader = DataLoader(hammer_dataset, 1, num_workers=1, shuffle=False, drop_last=False)
-        self.csvfile_hammer = os.path.join(cfg.log.dir, now, 'hammer-result.csv')
-        with open(self.csvfile_hammer, 'w') as csvfile:
-                writer = csv.DictWriter(csvfile, fieldnames=[
-                    "{:6}".format('epoch'),
-                    "{:10}".format('rmse'), 
-                    "{:10}".format('mae'), 
-                    "{:10}".format('rel'),  
-                    "{:10}".format('irmse'), 
-                    "{:10}".format('imae'),
-                    "{:10}".format('d1'), 
-                    "{:10}".format('d2'), 
-                    "{:10}".format('d3')])
-                writer.writeheader()
-        self.logger.info("load HAMMER {}".format(len(self.hammer_loader)))
-
         # Stanford
         stanford_dataset = __datasets__[cfg.Stanford.name](cfg, mode='val')
         self.stanford_loader = DataLoader(stanford_dataset, 1, num_workers=1, shuffle=False, drop_last=False)
@@ -631,7 +613,6 @@ class Trainer:
                 # self.val_dimli()
                 # self.val_cityscape()
                 # self.val_tofdc()
-                # self.val_hammer()
 
                 torch.cuda.empty_cache()
                 
@@ -643,19 +624,18 @@ class Trainer:
             # self.val_sunrgbd()
             # self.val_dimli()
             # self.val_tofdc()
-            # self.val_hammer()
             # self.val_ds()
             
             # self.val_diodeo()
             # self.val_diodei()
             # self.val_scannet()
             # self.val_middlebury()
-            # self.val_eth3d()
+            self.val_eth3d()
             # self.val_vkitti2()
             # self.val_hypersim()
             # self.val_cityscape()
-            # self.val_argoverse()  # metric3d CUDA out of memory in 189
-            self.val_stanford()
+            # self.val_argoverse()
+            # self.val_stanford()
             # self.val_kitti360()
 
         elif self.cfg.run_mode=='test':
@@ -685,7 +665,9 @@ class Trainer:
 
         for batch_idx, inputs in enumerate(self.train_loader):
             for key, ipt in inputs.items():
-                if key in ['cam_model', 'pad_info']:
+                if key in ['cam']:
+                    pass
+                elif key in ['cam_model', 'pad_info']:
                     inputs[key] = [item.cuda() for item in inputs[key]]
                 else:
                     inputs[key] = ipt.cuda()
@@ -765,44 +747,44 @@ class Trainer:
         # save_depth(input["sparse_noise"].cpu(), './save/'+data+'_{:0>4d}_noise.png'.format(batch))
         # print(input["target"].min(), input["target"].max())
         # print(input["sparse_noise"].min(), input["sparse_noise"].max())
-        # return
+        return
         # if batch < 90:
         #     return
         # from sklearn.decomposition import PCA
         # import PIL.Image as Image
-        import matplotlib.pyplot as plt
-        import matplotlib 
-        from matplotlib.backends.backend_agg import FigureCanvasAgg
-        matplotlib.use('pdf')
+        # import matplotlib.pyplot as plt
+        # import matplotlib 
+        # from matplotlib.backends.backend_agg import FigureCanvasAgg
+        # matplotlib.use('pdf')
 
-        sparse = input["sparse"].cpu()
-        mask = (sparse > 0).float()
-        conv = torch.nn.Conv2d(1, 1, (3, 3), stride=1, padding=1, bias=False, padding_mode='zeros')
-        conv.weight.data = torch.FloatTensor([[[[1, 1, 1],
-                                                [1, 1, 1],
-                                                [1, 1, 1],]]])
-        sparse = conv(sparse)
-        mask = conv(mask)
-        sparse = sparse/(mask+1e-5)
-        mask = mask > 0
-        sparse = save_depth(sparse, './save/'+data+'_{:0>4d}_sparse.png'.format(batch))
+        # sparse = input["sparse"].cpu()
+        # mask = (sparse > 0).float()
+        # conv = torch.nn.Conv2d(1, 1, (3, 3), stride=1, padding=1, bias=False, padding_mode='zeros')
+        # conv.weight.data = torch.FloatTensor([[[[1, 1, 1],
+        #                                         [1, 1, 1],
+        #                                         [1, 1, 1],]]])
+        # sparse = conv(sparse)
+        # mask = conv(mask)
+        # sparse = sparse/(mask+1e-5)
+        # mask = mask > 0
+        # sparse = save_depth(sparse, './save/'+data+'_{:0>4d}_sparse.png'.format(batch))
 
-        mask = mask.float()
-        sparse_rgb = input['rgb_s'].cpu()*(1-mask) + sparse * mask
+        # mask = mask.float()
+        # sparse_rgb = input['rgb_s'].cpu()*(1-mask) + sparse * mask
         # save_rgb(input['rgb_s'].cpu(), './save/'+data+'_{:0>4d}_rgb.png'.format(batch))
 
         # plt.imshow(input['rgb_s'].cpu().squeeze().permute(1,2,0)) 
-        plt.imshow(sparse_rgb.squeeze().permute(1,2,0)) #, alpha=0.5) 
-        plt.axis('off')
-        plt.savefig('./save/'+data+'_{:0>4d}_rgb.png'.format(batch), bbox_inches = 'tight', pad_inches = 0, dpi=100)
+        # plt.imshow(sparse_rgb.squeeze().permute(1,2,0)) #, alpha=0.5) 
+        # plt.axis('off')
+        # plt.savefig('./save/'+data+'_{:0>4d}_rgbs.png'.format(batch), bbox_inches = 'tight', pad_inches = 0, dpi=100)
 
         
-        save_depth(output['depth'][-1].cpu(), './save/'+data+'_{:0>4d}_d.png'.format(batch))
-        from  torchvision import utils as vutils
-        err0 = depth_error_image_func(output['depth'][-1].squeeze(1)*scale, input['target'].squeeze(1)*scale)
-        vutils.save_image(err0, './save/{:0>4d}_error.png'.format(batch))
+        # save_depth(output['depth'][-1].cpu(), './save/'+data+'_{:0>4d}_dr.png'.format(batch))
+        # from  torchvision import utils as vutils
+        # err0 = depth_error_image_func(output['depth'][-1].squeeze(1)*scale, input['target'].squeeze(1)*scale)
+        # vutils.save_image(err0, './save/{:0>4d}_error.png'.format(batch))
 
-        # save_depth_kitti(output['depth'][-1], './save/'+data+'_{:0>4d}_pol_pc.png'.format(batch))
+        # save_depth_kitti(output['depth'][-1], './save/'+data+'_{:0>4d}_dc.png'.format(batch))
 
         # save_rgb(input['rgb_s'], './save/'+data+'_{:0>4d}_rgb.png'.format(batch))
 
@@ -839,7 +821,9 @@ class Trainer:
         with torch.no_grad():
             for batch_idx, inputs in enumerate(self.nyu_loader):
                 for key, ipt in inputs.items():
-                    if key in ['cam_model', 'pad_info']:
+                    if key in ['cam']:
+                        pass
+                    elif key in ['cam_model', 'pad_info']:
                         inputs[key] = [item.cuda() for item in inputs[key]]
                     else:
                         inputs[key] = ipt.cuda()
@@ -884,7 +868,9 @@ class Trainer:
         with torch.no_grad():
             for batch_idx, inputs in enumerate(self.diodei_loader):
                 for key, ipt in inputs.items():
-                    if key in ['cam_model', 'pad_info']:
+                    if key in ['cam']:
+                        pass
+                    elif key in ['cam_model', 'pad_info']:
                         inputs[key] = [item.cuda() for item in inputs[key]]
                     else:
                         inputs[key] = ipt.cuda()
@@ -928,7 +914,9 @@ class Trainer:
         with torch.no_grad():
             for batch_idx, inputs in enumerate(self.sunrgbd_loader):
                 for key, ipt in inputs.items():
-                    if key in ['cam_model', 'pad_info']:
+                    if key in ['cam']:
+                        pass
+                    elif key in ['cam_model', 'pad_info']:
                         inputs[key] = [item.cuda() for item in inputs[key]]
                     else:
                         inputs[key] = ipt.cuda()
@@ -973,7 +961,9 @@ class Trainer:
         with torch.no_grad():
             for batch_idx, inputs in enumerate(self.scannet_loader):
                 for key, ipt in inputs.items():
-                    if key in ['cam_model', 'pad_info']:
+                    if key in ['cam']:
+                        pass
+                    elif key in ['cam_model', 'pad_info']:
                         inputs[key] = [item.cuda() for item in inputs[key]]
                     else:
                         inputs[key] = ipt.cuda()
@@ -1017,7 +1007,9 @@ class Trainer:
         with torch.no_grad():
             for batch_idx, inputs in enumerate(self.middlebury_loader):
                 for key, ipt in inputs.items():
-                    if key in ['cam_model', 'pad_info']:
+                    if key in ['cam']:
+                        pass
+                    elif key in ['cam_model', 'pad_info']:
                         inputs[key] = [item.cuda() for item in inputs[key]]
                     else:
                         inputs[key] = ipt.cuda()
@@ -1060,7 +1052,9 @@ class Trainer:
         with torch.no_grad():
             for batch_idx, inputs in enumerate(self.hypersim_loader):
                 for key, ipt in inputs.items():
-                    if key in ['cam_model', 'pad_info']:
+                    if key in ['cam']:
+                        pass
+                    elif key in ['cam_model', 'pad_info']:
                         inputs[key] = [item.cuda() for item in inputs[key]]
                     else:
                         inputs[key] = ipt.cuda()
@@ -1104,7 +1098,9 @@ class Trainer:
         with torch.no_grad():
             for batch_idx, inputs in enumerate(self.eth3d_loader):
                 for key, ipt in inputs.items():
-                    if key in ['cam_model', 'pad_info']:
+                    if key in ['cam']:
+                        pass
+                    elif key in ['cam_model', 'pad_info']:
                         inputs[key] = [item.cuda() for item in inputs[key]]
                     else:
                         inputs[key] = ipt.cuda()
@@ -1148,7 +1144,9 @@ class Trainer:
         with torch.no_grad():
             for batch_idx, inputs in enumerate(self.void_loader):
                 for key, ipt in inputs.items():
-                    if key in ['cam_model', 'pad_info']:
+                    if key in ['cam']:
+                        pass
+                    elif key in ['cam_model', 'pad_info']:
                         inputs[key] = [item.cuda() for item in inputs[key]]
                     else:
                         inputs[key] = ipt.cuda()
@@ -1192,7 +1190,9 @@ class Trainer:
         with torch.no_grad():
             for batch_idx, inputs in enumerate(self.kitti_loader):
                 for key, ipt in inputs.items():
-                    if key in ['cam_model', 'pad_info']:
+                    if key in ['cam']:
+                        pass
+                    elif key in ['cam_model', 'pad_info']:
                         inputs[key] = [item.cuda() for item in inputs[key]]
                     else:
                         inputs[key] = ipt.cuda()
@@ -1237,7 +1237,9 @@ class Trainer:
         with torch.no_grad():
             for batch_idx, inputs in enumerate(self.ds_loader):
                 for key, ipt in inputs.items():
-                    if key in ['cam_model', 'pad_info']:
+                    if key in ['cam']:
+                        pass
+                    elif key in ['cam_model', 'pad_info']:
                         inputs[key] = [item.cuda() for item in inputs[key]]
                     else:
                         inputs[key] = ipt.cuda()
@@ -1281,7 +1283,9 @@ class Trainer:
         with torch.no_grad():
             for batch_idx, inputs in enumerate(self.diodeo_loader):
                 for key, ipt in inputs.items():
-                    if key in ['cam_model', 'pad_info']:
+                    if key in ['cam']:
+                        pass
+                    elif key in ['cam_model', 'pad_info']:
                         inputs[key] = [item.cuda() for item in inputs[key]]
                     else:
                         inputs[key] = ipt.cuda()
@@ -1325,7 +1329,9 @@ class Trainer:
         with torch.no_grad():
             for batch_idx, inputs in enumerate(self.arg_loader):
                 for key, ipt in inputs.items():
-                    if key in ['cam_model', 'pad_info']:
+                    if key in ['cam']:
+                        pass
+                    elif key in ['cam_model', 'pad_info']:
                         inputs[key] = [item.cuda() for item in inputs[key]]
                     else:
                         inputs[key] = ipt.cuda()
@@ -1369,7 +1375,9 @@ class Trainer:
         with torch.no_grad():
             for batch_idx, inputs in enumerate(self.vkitti2_loader):
                 for key, ipt in inputs.items():
-                    if key in ['cam_model', 'pad_info']:
+                    if key in ['cam']:
+                        pass
+                    elif key in ['cam_model', 'pad_info']:
                         inputs[key] = [item.cuda() for item in inputs[key]]
                     else:
                         inputs[key] = ipt.cuda()
@@ -1410,7 +1418,9 @@ class Trainer:
         with torch.no_grad():
             for batch_idx, inputs in enumerate(self.dimli_loader):
                 for key, ipt in inputs.items():
-                    if key in ['cam_model', 'pad_info']:
+                    if key in ['cam']:
+                        pass
+                    elif key in ['cam_model', 'pad_info']:
                         inputs[key] = [item.cuda() for item in inputs[key]]
                     else:
                         inputs[key] = ipt.cuda() 
@@ -1453,7 +1463,9 @@ class Trainer:
         with torch.no_grad():
             for batch_idx, inputs in enumerate(self.cityscape_loader):
                 for key, ipt in inputs.items():
-                    if key in ['cam_model', 'pad_info']:
+                    if key in ['cam']:
+                        pass
+                    elif key in ['cam_model', 'pad_info']:
                         inputs[key] = [item.cuda() for item in inputs[key]]
                     else:
                         inputs[key] = ipt.cuda() 
@@ -1497,7 +1509,9 @@ class Trainer:
         with torch.no_grad():
             for batch_idx, inputs in enumerate(self.tofdc_loader):
                 for key, ipt in inputs.items():
-                    if key in ['cam_model', 'pad_info']:
+                    if key in ['cam']:
+                        pass
+                    elif key in ['cam_model', 'pad_info']:
                         inputs[key] = [item.cuda() for item in inputs[key]]
                     else:
                         inputs[key] = ipt.cuda() 
@@ -1532,50 +1546,7 @@ class Trainer:
         del inputs, outputs, errors
 
         self.set_train()
-    
-    def val_hammer(self):
-        self.logger.info("Val HAMMER epoch: {}".format(self.epoch))
 
-        self.set_eval()
-        val_error = None
-        with torch.no_grad():
-            for batch_idx, inputs in enumerate(self.hammer_loader):
-                for key, ipt in inputs.items():
-                    if key in ['cam_model', 'pad_info']:
-                        inputs[key] = [item.cuda() for item in inputs[key]]
-                    else:
-                        inputs[key] = ipt.cuda()
-                
-                errors, outputs = self.net(inputs=inputs, is_test=False, epoch=self.epoch, data=self.cfg.HAMMER.name)
-
-                if val_error is None:
-                    val_error = {}
-                    for err_type in errors:
-                        val_error[err_type] = []
-                        for e in errors[err_type]:
-                            val_error[err_type].append(float(e.detach().cpu().numpy().mean())) 
-                else:
-                    for err_type in errors:
-                        for e in range(len(errors[err_type])):
-                            val_error[err_type][e] += float(errors[err_type][e].detach().cpu().numpy().mean())
-                
-                is_summary = (batch_idx % self.cfg.log.train_freq == 0)
-                if is_summary:
-                    self.logger.info("\t  ==> " + str(batch_idx)+"\t" + str({item: round(float(errors[item][-1]), 6) for item in errors}))
-
-                torch.cuda.empty_cache()
-            
-            for key in val_error:
-                for i in range(len(val_error[key])):
-                    val_error[key][i] /= (len(self.hammer_loader)) 
-            
-            self.logger.info('\t=> Val HAMMER error: {}'.format(val_error))
-            self.save_csv(val_error, self.csvfile_hammer)
-
-        del inputs, outputs, errors
-
-        self.set_train()
-    
     def val_stanford(self):
         self.logger.info("Val Stanford epoch: {}".format(self.epoch))
 
@@ -1584,12 +1555,15 @@ class Trainer:
         with torch.no_grad():
             for batch_idx, inputs in enumerate(self.stanford_loader):
                 for key, ipt in inputs.items():
-                    if key in ['cam_model', 'pad_info']:
+                    if key in ['cam']:
+                        pass
+                    elif key in ['cam_model', 'pad_info']:
                         inputs[key] = [item.cuda() for item in inputs[key]]
                     else:
                         inputs[key] = ipt.cuda() 
                 
                 errors, outputs = self.net(inputs=inputs, is_test=False, epoch=self.epoch, data=self.cfg.Stanford.name)
+                self.save_temp(outputs, inputs, batch_idx, self.cfg.Stanford.name, scale=1)
 
                 if val_error is None:
                     val_error = {}
@@ -1627,7 +1601,9 @@ class Trainer:
         with torch.no_grad():
             for batch_idx, inputs in enumerate(self.kitti360_loader):
                 for key, ipt in inputs.items():
-                    if key in ['cam_model', 'pad_info']:
+                    if key in ['cam']:
+                        pass
+                    elif key in ['cam_model', 'pad_info']:
                         inputs[key] = [item.cuda() for item in inputs[key]]
                     else:
                         inputs[key] = ipt.cuda() 
@@ -1734,10 +1710,10 @@ class Trainer:
             self.log('Missing keys :')
             self.log(key_m)
 
-        self.net.load_state_dict(dict_no_module) # pre_state_dict['model'])
+        self.net.load_state_dict(pre_state_dict['model']) # dict_no_module) # pre_state_dict['model'])
 
-        self.optimizer.load_state_dict(pre_state_dict['optimizer'])
-        self.start_epoch = pre_state_dict['epoch'] + 1
+        # self.optimizer.load_state_dict(pre_state_dict['optimizer'])
+        # self.start_epoch = pre_state_dict['epoch'] + 1
 
         # state_dict = {}
         # model_dict = self.net.module.state_dict()
