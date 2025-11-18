@@ -536,7 +536,7 @@ CSLBranch:
     dim: 64
     pretrained: /data/slchen/pretrained/resnet18.pth
   ImgBranch:
-    layer_dim: [256, 256, 256, 256] #[192, 384, 768, 1536] # midas/depthanything(v2)/depthpro/promptda=[256, 256, 256, 256] metricv2=[1024, 512, 258] unidepth=[512, 256, 128]
+    layer_dim: [256, 256, 256, 256] # midas/depthanything(v2)/depthpro/promptda=[256, 256, 256, 256] metricv2=[1024, 512, 258] unidepth=[512, 256, 128]
     branch_dim: 16
     dim: 16
     last_dim: 24
