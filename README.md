@@ -27,7 +27,7 @@ The main environment requires adherence to the corresponding foundation model.
     pip install numba
     pip install tensorboardX
     pip install omegaconf
-    pip install opencv-python
+    pip install opencv-python-headless
     pip install matplotlib
     pip install h5py
     pip install timm
