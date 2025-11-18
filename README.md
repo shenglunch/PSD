@@ -29,6 +29,7 @@ The main environment requires adherence to the corresponding foundation model.
     pip install omegaconf
     pip install opencv-python
     pip install matplotlib
+    pip install h5py
 
 ### Pre-trained Models
 | Model      | Foundation Model  | Version |  Checkpoint  |
