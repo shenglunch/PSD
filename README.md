@@ -7,6 +7,8 @@ Shenglun Chen, Xinzhu Ma, Hong Zhang, Haojie Li, Zhihui Wang. Propagating Sparse
 
 ## News
 
+2025-11-18 We refactor the code.
+
 2025-8-17  Our work is published.
 
 2025-8-7  Our work is accepted by TIP. The ePrint is available at [arXiv](https://arxiv.org/abs/2508.04984).
